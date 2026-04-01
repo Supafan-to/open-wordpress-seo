@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Open WordPress SEO
-Plugin URI: https://mikemoisio.ai/open-wordpress-seo/
+Plugin URI: https://mikemoisio.ai/open-wp-seo/
 Description: The free open-source WordPress SEO plugin.
 Version: 1.0.2
 Author: Mike Moisio
@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Open WordPress SEO
  * The free open-source WordPress SEO plugin.
  *
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 if (!defined('ABSPATH')) return;
@@ -58,7 +58,7 @@ class OpenWordPressSEO {
 	
 	const PLUGIN_NAME = "Open WordPress SEO";
 	const ADMIN_SETTINGS_URL = 'options-general.php?page=open-wp-seo';
-	const VERSION = '1.0.1';
+	const VERSION = '1.0.2';
 	const OPTION_ON = 'on';
 	const OPTION_OFF = 'off';
 	const STATUS_OK = 'ok';
@@ -114,6 +114,7 @@ class OpenWordPressSEO {
 		add_action('wp_head', array(self::$meta, 'print_meta_noindex'));
 		add_action('wp_head', array(self::$meta, 'print_meta_canonical'));
 		add_action('wp_head', array(self::$meta, 'print_meta_opengraph'));
+		add_action('wp_head', array(self::$meta, 'print_head_code'));
 		add_action('wp_footer', array($this, 'print_seo_credit_link'), 100);
 		add_action('wp_footer', array($this, 'print_added_footer_code'), 999);
 		
@@ -154,6 +155,10 @@ class OpenWordPressSEO {
 		if (isset($_POST['open_wp_seo_description'])){
 			update_post_meta($post_id, 'open_wp_seo_description', sanitize_text_field($_POST['open_wp_seo_description']));
 		}
+
+		if (isset($_POST['open_wp_seo_head_code'])){
+			update_post_meta($post_id, 'open_wp_seo_head_code', $_POST['open_wp_seo_head_code']);
+		}		
 	}
 
 	public function create_options_menu() {
@@ -503,4 +508,5 @@ class OpenWordPressSEO {
 		return $urls;
 	}
 }
+
 
